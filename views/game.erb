@@ -1,0 +1,19 @@
+<h1>Welcome to ruby blackjack!</h1>
+
+Hi <%= session[:player_name] %>.
+<br><br>
+<p>Dealer's cards:
+<ul>
+	<% session[:dealer_cards].each do |card| %>
+	<li><%= card.to_s %></li>
+	<% end %>
+</ul></p>
+<br>
+<p>Player's cards:
+<ul>
+	<% session[:player_cards].each do |card| %>
+	<li><%= card.to_s %></li>
+	<% end %>
+</ul>
+</p>
+<p>What would you like to do now? <%= session[:player_name] %> has <%= calculate_total(session[:player_cards])%></p>

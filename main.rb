@@ -3,9 +3,29 @@ require 'sinatra'
 
 set :sessions, true
 
+helpers do
+	def calculate_total(cards)
+		array=cards.map{|e| e[1]}
+			total=0
+		array.each do |a|
+			if a=="A"
+				total=total + 11
+			elsif a.to_i==0
+				total=total+10
+			else
+				total=total + a.to_i
+			end
+		end
+		array.select{|e| e=="A"}.count.times do
+			total=total-10 if total>21
+		end
+		total
+	end
+end
+
 get '/' do
 	if session[:player_name]
-		#progress to game
+		redirect '/game'
 	else
 		redirect '/new_player'
 	end
