@@ -17,3 +17,12 @@ Hi <%= session[:player_name] %>.
 </ul>
 </p>
 <p>What would you like to do now? <%= session[:player_name] %> has <%= calculate_total(session[:player_cards])%></p>
+
+<%if @show_hit_stay==true %>
+<form action="/game/player/hit" method="post">
+<input type="submit" class="button" value="Hit">
+</form>
+<form action="/game/player/stay" method="post">
+<input type="submit" class="button" value="Stay">
+</form>
+<% end %>
