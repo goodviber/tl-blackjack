@@ -1,28 +1,61 @@
-<h1>Welcome to ruby blackjack!</h1>
+<h3>Welcome <%= session[:player_name] %>...to ruby blackjack!</h3>
 
-Hi <%= session[:player_name] %>.
-<br><br>
-<p>Dealer's cards:
-<ul>
-	<% session[:dealer_cards].each do |card| %>
-	<li><%= card.to_s %></li>
-	<% end %>
-</ul></p>
-<br>
-<p>Player's cards:
-<ul>
-	<% session[:player_cards].each do |card| %>
-	<li><%= card.to_s %></li>
-	<% end %>
-</ul>
-</p>
-<p>What would you like to do now? <%= session[:player_name] %> has <%= calculate_total(session[:player_cards])%></p>
 
 <%if @show_hit_stay==true %>
-<form action="/game/player/hit" method="post">
-<input type="submit" class="button" value="Hit">
+<form id="hit" action="/game/player/hit" method="post" class="form-inline">
+	<label>Hit or Stay?</label>
+<input type="submit" class="btn btn-success" value="Hit">
 </form>
-<form action="/game/player/stay" method="post">
-<input type="submit" class="button" value="Stay">
+<form id="stay" action="/game/player/stay" method="post">
+<input type="submit" class="btn btn-warning" value="Stay">
 </form>
+<br><br>
 <% end %>
+
+	<% if @show_dealer_hit %>
+			<form action='/game/dealer/hit' method='post' class='form-inline'>
+					<input type='submit' class='btn btn-primary' value='Click to see Dealer cards'>
+			</form>
+	<%end%>
+
+<% if @play_again %> 
+<p>
+<bold>Play again?</bold>
+<a href="/bet" class="btn btn-primary">Yes</a>
+<a href="/game_over" class="btn"> No</a>
+</p>
+<%end%>
+
+<div class="well">
+	<h4>Player's cards: <%= calculate_total(session[:player_cards])%></h4>
+
+	<% session[:player_cards].each do |card| %>
+	<%= card_image(card) %>
+	<% end %>
+
+	<h4>What would <%= session[:player_name] %> like to do now? <%= session[:player_name] %> has &pound<%=session[:player_pot] %> and has placed a bet of &pound<%= session[:player_bet] %></h4>
+</div>
+
+<br>
+
+<div class="well">
+	<h4>Dealer's cards:</h4>
+	<% session[:dealer_cards].each_with_index do |card, i| %>
+		<% if session[:turn] != "Dealer" && i==0 %>
+				<img src="/images/cards/cover.jpg">
+		<% else %>
+				<%= card_image(card) %>
+		<% end %>
+	<% end %>
+
+	<% if @show_dealer_hit %>
+			<h5>Dealer has <%= calculate_total(session[:dealer_cards])%> and will hit.</h5>
+	<%end%>
+
+</div>
+
+	
+
+
+
+
