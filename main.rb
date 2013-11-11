@@ -27,21 +27,21 @@ helpers do
 
 	def win!(msg)
 		@play_again=true
-		@success="<bold>#{session[:player_name]} wins! #{msg}</bold>"
+		@winner="<bold>#{session[:player_name]} wins! #{msg}</bold>"
 		@show_hit_stay=false
 		session[:player_pot] += session[:player_bet]
 	end
 
 	def lose!(msg)
 		@play_again=true
-		@error="<bold>#{session[:player_name]} loses! #{msg}</bold>"
+		@loser="<bold>#{session[:player_name]} loses! #{msg}</bold>"
 		@show_hit_stay=false
 		session[:player_pot] -= session[:player_bet]
 	end
 
 	def tie!(msg)
 		@play_again=true
-		@success="<bold>It's a Draw! #{msg}</bold>"
+		@winner="<bold>It's a Draw! #{msg}</bold>"
 		@show_hit_stay=false
 	end
 
@@ -148,7 +148,7 @@ post '/game/player/hit' do
 
 	end
 
-		erb :game
+		erb :game, layout: false
 end
 
 post '/game/player/stay' do
@@ -179,7 +179,7 @@ get '/game/dealer' do
 					
 	end
 
-erb :game
+erb :game, layout: false
 
 end
 
@@ -203,7 +203,7 @@ get '/game/compare' do
 		tie!("Dealer and #{session[:player_name]} have #{player_total}")
 	end
 
-	 erb :game
+	 erb :game, layout: false
 
 end
 
